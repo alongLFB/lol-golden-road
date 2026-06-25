@@ -486,6 +486,7 @@ const Game = (() => {
 
       if (player) {
         filledCount++;
+        slot.style.cursor = 'pointer';
         slot.innerHTML = `
           <div class="slot-role">${I18N.t('role.' + role)}</div>
           <div class="slot-player">${player.name}</div>
@@ -494,10 +495,12 @@ const Game = (() => {
         `;
         slot.onclick = () => removeFreePlayer(role);
       } else {
+        slot.style.cursor = 'pointer';
         slot.innerHTML = `
           <div class="slot-role">${I18N.t('role.' + role)}</div>
           <div class="slot-empty">${I18N.t('draft.empty')}</div>
         `;
+        slot.onclick = () => setFreeRoleFilter(role);
       }
       grid.appendChild(slot);
     });
@@ -560,7 +563,14 @@ const Game = (() => {
     if (state.roster[playerObj.role]) return; // slot full
     state.roster[playerObj.role] = playerObj;
     renderFreeRoster();
-    renderFreePlayerPool();
+    
+    // Auto-advance UX: automatically filter to the next unfilled role
+    const emptyRole = ROLES.find(r => !state.roster[r]);
+    if (emptyRole) {
+      setFreeRoleFilter(emptyRole);
+    } else {
+      setFreeRoleFilter('all');
+    }
   }
 
   function removeFreePlayer(role) {
