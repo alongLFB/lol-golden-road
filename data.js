@@ -36,8 +36,8 @@ const TEAMS = {
     { id: 'ig',   name: 'Invictus Gaming',      abbr: 'IG',   years: [2015, 2018, 2019] },
     { id: 'fpx',  name: 'FunPlus Phoenix',      abbr: 'FPX',  years: [2019, 2020, 2021] },
     { id: 'tes',  name: 'Top Esports',          abbr: 'TES',  years: [2020, 2021, 2024] },
-    { id: 'wbg',  name: 'Weibo Gaming',         abbr: 'WBG',  years: [2020, 2023, 2024] },
-    { id: 'jdg',  name: 'JD Gaming',            abbr: 'JDG',  years: [2019, 2020, 2023, 2024] },
+    { id: 'wbg',  name: 'Weibo Gaming',         abbr: 'WBG',  years: [2020, 2023, 2024, 2025] },
+    { id: 'jdg',  name: 'JD Gaming',            abbr: 'JDG',  years: [2019, 2020, 2023, 2024, 2025] },
     { id: 'blg',  name: 'Bilibili Gaming',      abbr: 'BLG',  years: [2023, 2024, 2025] },
     { id: 'we',   name: 'Team WE',              abbr: 'WE',   years: [2013, 2014, 2017] },
     { id: 'omg',  name: 'Oh My God',            abbr: 'OMG',  years: [2013, 2014] },
@@ -46,8 +46,8 @@ const TEAMS = {
 
   // ── LCK ──────────────────────────────────────────────────────────────────
   lck: [
-    { id: 't1',   name: 'T1',                   abbr: 'T1',   years: [2013, 2015, 2016, 2017, 2019, 2022, 2023, 2024] },
-    { id: 'geng', name: 'Gen.G',                abbr: 'GEN',  years: [2014, 2016, 2017, 2023, 2024] },
+    { id: 't1',   name: 'T1',                   abbr: 'T1',   years: [2013, 2015, 2016, 2017, 2019, 2022, 2023, 2024, 2025] },
+    { id: 'geng', name: 'Gen.G',                abbr: 'GEN',  years: [2014, 2016, 2017, 2023, 2024, 2025] },
     { id: 'dk',   name: 'Dplus KIA',            abbr: 'DK',   years: [2019, 2020, 2021, 2022] },
     { id: 'kt',   name: 'KT Rolster',           abbr: 'KT',   years: [2013, 2014, 2017, 2018] },
     { id: 'drx',  name: 'DRX',                  abbr: 'DRX',  years: [2020, 2022] },
@@ -316,6 +316,15 @@ const ROSTERS = {
       { name: 'Crisp',     role: 'support', rating: 78 },
     ],
   },
+  'wbg-2025': {
+    players: [
+      { name: 'Breathe',   role: 'top',     rating: 80 },
+      { name: 'Tian',      role: 'jungle',  rating: 82 },
+      { name: 'Xiaohu',    role: 'mid',     rating: 80 },
+      { name: 'Light',     role: 'adc',     rating: 78 },
+      { name: 'Hang',      role: 'support', rating: 78 },
+    ],
+  },
 
   // ── JDG ──────────────────────────────────────────────────────────────────
   'jdg-2019': {
@@ -355,6 +364,15 @@ const ROSTERS = {
       { name: 'Missing',   role: 'support', rating: 80 },
     ],
   },
+  'jdg-2025': {
+    players: [
+      { name: 'Ale',       role: 'top',     rating: 80 },
+      { name: 'Xun',       role: 'jungle',  rating: 82 },
+      { name: 'Scout',     role: 'mid',     rating: 86 },
+      { name: 'Peyz',      role: 'adc',     rating: 84 },
+      { name: 'Missing',   role: 'support', rating: 82 },
+    ],
+  },
 
   // ── BLG ──────────────────────────────────────────────────────────────────
   'blg-2023': {
@@ -377,11 +395,11 @@ const ROSTERS = {
   },
   'blg-2025': {
     players: [
-      { name: 'Bin',       role: 'top',     rating: 86 },
-      { name: 'Xun',       role: 'jungle',  rating: 82 },
-      { name: 'knight',    role: 'mid',     rating: 86 },
-      { name: 'Elk',       role: 'adc',     rating: 82 },
-      { name: 'ON',        role: 'support', rating: 78 },
+      { name: 'Bin',       role: 'top',     rating: 88 },
+      { name: 'Wei',       role: 'jungle',  rating: 84 },
+      { name: 'knight',    role: 'mid',     rating: 88 },
+      { name: 'Elk',       role: 'adc',     rating: 84 },
+      { name: 'ON',        role: 'support', rating: 80 },
     ],
   },
 
@@ -541,6 +559,16 @@ const ROSTERS = {
       { name: 'Keria',     role: 'support', rating: 92 },
     ],
   },
+  't1-2025': {
+    // Worlds 2025 Champions
+    players: [
+      { name: 'Doran',     role: 'top',     rating: 84 },
+      { name: 'Oner',      role: 'jungle',  rating: 92 },
+      { name: 'Faker',     role: 'mid',     rating: 94 },
+      { name: 'Gumayusi',  role: 'adc',     rating: 88 },
+      { name: 'Keria',     role: 'support', rating: 94 },
+    ],
+  },
 
   // ── Gen.G / Samsung ──────────────────────────────────────────────────────
   'geng-2014': {
@@ -589,6 +617,15 @@ const ROSTERS = {
       { name: 'Chovy',     role: 'mid',     rating: 94 },
       { name: 'Peyz',      role: 'adc',     rating: 82 },
       { name: 'Lehends',   role: 'support', rating: 84 },
+    ],
+  },
+  'geng-2025': {
+    players: [
+      { name: 'Kiin',      role: 'top',     rating: 88 },
+      { name: 'Canyon',    role: 'jungle',  rating: 90 },
+      { name: 'Chovy',     role: 'mid',     rating: 94 },
+      { name: 'Ruler',     role: 'adc',     rating: 90 },
+      { name: 'Duro',      role: 'support', rating: 82 },
     ],
   },
 

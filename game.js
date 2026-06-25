@@ -431,6 +431,155 @@ const Game = (() => {
     });
   }
 
+  // ─── Free Draft Mode ─────────────────────────────────
+  let freeDraftPool = [];
+  let freeDraftFilter = { text: '', role: 'all' };
+
+  function initFreeDraftPool() {
+    if (freeDraftPool.length > 0) return;
+    for (const [key, roster] of Object.entries(ROSTERS)) {
+      const parts = key.split('-');
+      const teamId = parts[0];
+      const year = parts[1];
+      let teamAbbr = teamId.toUpperCase();
+      // Try to find correct abbreviation
+      for (const region of Object.values(TEAMS)) {
+        const found = region.find(t => t.id === teamId);
+        if (found) teamAbbr = found.abbr;
+      }
+      roster.players.forEach(p => {
+        freeDraftPool.push({
+          ...p,
+          team: teamAbbr,
+          year: year,
+          key: `${p.name}-${teamAbbr}-${year}-${p.role}` // Unique key
+        });
+      });
+    }
+    // Sort by rating descending
+    freeDraftPool.sort((a, b) => b.rating - a.rating);
+  }
+
+  function startFreeDraftMode() {
+    state.mode = 'golden'; // Default to golden road for free draft
+    state.phase = 'free-draft';
+    state.roster = { top: null, jungle: null, mid: null, adc: null, support: null };
+    initFreeDraftPool();
+    freeDraftFilter = { text: '', role: 'all' };
+    document.getElementById('free-search').value = '';
+    
+    showScreen('free-draft');
+    renderFreeRoster();
+    renderFreePlayerPool();
+  }
+
+  function renderFreeRoster() {
+    const grid = document.getElementById('free-roster-grid');
+    grid.innerHTML = '';
+    let filledCount = 0;
+
+    ROLES.forEach(role => {
+      const player = state.roster[role];
+      const slot = document.createElement('div');
+      slot.className = `roster-slot${player ? ' filled' : ''}`;
+      slot.style.cursor = player ? 'pointer' : 'default';
+
+      if (player) {
+        filledCount++;
+        slot.innerHTML = `
+          <div class="slot-role">${I18N.t('role.' + role)}</div>
+          <div class="slot-player">${player.name}</div>
+          <div style="font-size:0.65rem;color:var(--text-muted)">${player.team} ${player.year}</div>
+          <div style="font-size:0.65rem;color:var(--gold-light);margin-top:2px;">(点击移除)</div>
+        `;
+        slot.onclick = () => removeFreePlayer(role);
+      } else {
+        slot.innerHTML = `
+          <div class="slot-role">${I18N.t('role.' + role)}</div>
+          <div class="slot-empty">${I18N.t('draft.empty')}</div>
+        `;
+      }
+      grid.appendChild(slot);
+    });
+
+    const btnSim = document.getElementById('btn-free-sim');
+    btnSim.disabled = filledCount < 5;
+  }
+
+  function renderFreePlayerPool() {
+    const list = document.getElementById('free-player-list');
+    list.innerHTML = '';
+
+    const text = freeDraftFilter.text.toLowerCase();
+    const role = freeDraftFilter.role;
+
+    const filtered = freeDraftPool.filter(p => {
+      if (role !== 'all' && p.role !== role) return false;
+      if (text && !p.name.toLowerCase().includes(text) && !p.team.toLowerCase().includes(text)) return false;
+      return true;
+    });
+
+    filtered.forEach(p => {
+      const isPicked = Object.values(state.roster).some(rp => rp && rp.key === p.key);
+      const isRoleFilled = state.roster[p.role] !== null;
+
+      const card = document.createElement('div');
+      card.className = `player-card${isPicked ? ' selected' : ''}`;
+      
+      if (isPicked || isRoleFilled) {
+        card.style.opacity = '0.4';
+        card.style.cursor = 'not-allowed';
+      } else {
+        card.onclick = () => pickFreePlayer(p);
+      }
+
+      card.innerHTML = `
+        <div class="player-role">${I18N.t('role.' + p.role)}</div>
+        <div class="player-name">${p.name}</div>
+        <div style="font-size: 0.8rem; font-weight: bold; color: var(--gold-mid); text-align: center; margin-top: 4px;">Rating: ${p.rating}</div>
+        <div style="font-size: 0.7rem; color: var(--text-muted); text-align: center; margin-top: 4px;">${p.team} ${p.year}</div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function filterFreePlayers() {
+    freeDraftFilter.text = document.getElementById('free-search').value;
+    renderFreePlayerPool();
+  }
+
+  function setFreeRoleFilter(role) {
+    freeDraftFilter.role = role;
+    document.querySelectorAll('#free-role-tabs .role-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.innerText.toLowerCase() === role.toLowerCase());
+    });
+    renderFreePlayerPool();
+  }
+
+  function pickFreePlayer(playerObj) {
+    if (state.roster[playerObj.role]) return; // slot full
+    state.roster[playerObj.role] = playerObj;
+    renderFreeRoster();
+    renderFreePlayerPool();
+  }
+
+  function removeFreePlayer(role) {
+    state.roster[role] = null;
+    renderFreeRoster();
+    renderFreePlayerPool();
+  }
+
+  function startFreeSim() {
+    // Check if 5 picked
+    if (Object.values(state.roster).some(p => !p)) return;
+    
+    // Switch to sim screen
+    showScreen('sim');
+    
+    // Prepare for sim display using existing logic
+    renderSimScreen();
+  }
+
   // ─── Simulation Screen ─────────────────────────────
   function renderSimScreen() {
     // Render roster
@@ -1004,6 +1153,10 @@ const Game = (() => {
   // ─── Public API ────────────────────────────────────
   return {
     startMode,
+    startFreeDraftMode,
+    filterFreePlayers,
+    setFreeRoleFilter,
+    startFreeSim,
     backToStart,
     spin,
     reroll,

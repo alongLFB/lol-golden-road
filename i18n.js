@@ -24,6 +24,8 @@ const I18N = (() => {
       'mode.golden.desc': '完整赛季挑战 — 春季赛 → MSI → 夏季赛 → 全球总决赛',
       'mode.msi': 'MSI 挑战',
       'mode.msi.desc': '精简的季中冠军赛主题挑战',
+      'mode.free': '自主选人',
+      'mode.free.desc': '组建你的梦幻银河战舰，无视轮盘随机性',
       'mode.back': '返回',
 
       // Roles
@@ -52,6 +54,7 @@ const I18N = (() => {
       'draft.result.title': '本轮抽签结果',
       'draft.available': '可用选手',
       'draft.no.rerolls': '重骰次数已用完',
+      'free.pool': '历史选手池',
 
       // Simulation
       'sim.title': '赛季模拟',
@@ -153,6 +156,8 @@ const I18N = (() => {
       'mode.golden.desc': 'Full season challenge — Spring → MSI → Summer → Worlds',
       'mode.msi': 'MSI Challenge',
       'mode.msi.desc': 'Shorter MSI-themed challenge',
+      'mode.free': 'Free Draft',
+      'mode.free.desc': 'Build your dream team without RNG',
       'mode.back': 'Back',
 
       // Roles
@@ -181,6 +186,7 @@ const I18N = (() => {
       'draft.result.title': 'Spin Result',
       'draft.available': 'Available Players',
       'draft.no.rerolls': 'No rerolls remaining',
+      'free.pool': 'Historical Player Pool',
 
       // Simulation
       'sim.title': 'Season Simulation',

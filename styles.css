@@ -655,7 +655,7 @@ button {
 
 .player-card {
   position: relative;
-  padding: var(--space-lg) var(--space-md);
+  padding: var(--space-md) var(--space-sm);
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -663,6 +663,11 @@ button {
   cursor: pointer;
   transition: all var(--transition-normal);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
 }
 .player-card::before {
   content: '';
