@@ -1467,6 +1467,67 @@ button {
   70% { filter: blur(4px); }
   100% { filter: blur(0); }
 }
+/* ---------- Free Draft Layout Classes ---------- */
+.free-draft-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.free-draft-roster {
+  margin-top: 0;
+}
+.flex-start-mb20 {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+.player-pool-panel {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  max-height: 85vh;
+}
+.pool-header {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  outline: none;
+}
+.search-input:focus {
+  border-color: var(--blue-accent);
+}
+.free-role-tabs {
+  justify-content: flex-start;
+  gap: 8px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+.free-player-list {
+  overflow-y: auto;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  padding-right: 5px;
+  align-content: start;
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
@@ -1495,23 +1556,42 @@ button {
   }
 
   .roster-grid {
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-xs);
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--space-sm);
+    gap: var(--space-sm);
   }
 
   .roster-slot {
+    flex: 0 0 110px;
+    scroll-snap-align: start;
     padding: var(--space-sm) var(--space-xs);
-    min-height: 70px;
+    min-height: 80px;
   }
   .slot-player {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
   .slot-role {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
   }
 
+  .free-draft-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .player-pool-panel {
+    max-height: 60vh;
+    padding: var(--space-md);
+  }
+
+  .free-player-list {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  }
+  
   .player-grid {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   }
 
   .spin-result-banner {
@@ -1537,9 +1617,6 @@ button {
 }
 
 @media (max-width: 480px) {
-  .roster-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 
   .player-grid {
     grid-template-columns: repeat(2, 1fr);

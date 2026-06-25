@@ -200,11 +200,11 @@
 
     <!-- ============ FREE DRAFT SCREEN ============ -->
     <div class="screen" id="screen-free-draft">
-      <div class="draft-container" style="max-width: 900px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px;">
+      <div class="draft-container free-draft-layout">
         
         <!-- Left: Roster slots -->
-        <div class="roster-panel" style="margin-top:0">
-          <div class="draft-header" style="justify-content: flex-start; margin-bottom: 20px;">
+        <div class="roster-panel free-draft-roster">
+          <div class="draft-header flex-start-mb20">
             <button class="back-btn" onclick="Game.backToStart()">
               ← <span data-i18n="mode.back">返回</span>
             </button>
@@ -221,14 +221,14 @@
         </div>
 
         <!-- Right: Player Pool -->
-        <div class="player-pool-panel" style="background: var(--surface-light); border-radius: var(--radius-lg); padding: var(--space-lg); display: flex; flex-direction: column; max-height: 85vh;">
-          <div class="selection-header" data-i18n="free.pool" style="margin-top:0; font-size:1.1rem">历史选手池</div>
+        <div class="player-pool-panel">
+          <div class="selection-header pool-header" data-i18n="free.pool">历史选手池</div>
           
           <!-- Filters -->
-          <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <input type="text" id="free-search" placeholder="搜索选手名..." style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); outline: none;" oninput="Game.filterFreePlayers()" />
+          <div class="search-container">
+            <input type="text" id="free-search" class="search-input" placeholder="搜索选手名..." oninput="Game.filterFreePlayers()" />
           </div>
-          <div class="role-assign" id="free-role-tabs" style="margin-bottom: 15px;">
+          <div class="role-assign free-role-tabs" id="free-role-tabs">
             <button class="role-btn active" onclick="Game.setFreeRoleFilter('all')">All</button>
             <button class="role-btn" onclick="Game.setFreeRoleFilter('top')">Top</button>
             <button class="role-btn" onclick="Game.setFreeRoleFilter('jungle')">Jungle</button>
@@ -238,7 +238,7 @@
           </div>
 
           <!-- List -->
-          <div id="free-player-list" style="overflow-y: auto; flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; padding-right: 5px; align-content: start;">
+          <div id="free-player-list" class="free-player-list">
             <!-- Rendered by JS -->
           </div>
         </div>
