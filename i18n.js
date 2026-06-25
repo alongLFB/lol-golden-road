@@ -132,6 +132,7 @@ const I18N = (() => {
       'footer.disclaimer': '非 Riot Games 官方产品',
       'footer.howtoplay': '玩法说明',
       'footer.about': '关于',
+      'footer.visitor.count': '已有 {count} 位经理踏上黄金之路',
 
       // Misc
       'misc.rating': '评分',
@@ -264,6 +265,7 @@ const I18N = (() => {
       'footer.disclaimer': 'Not affiliated with Riot Games',
       'footer.howtoplay': 'How to Play',
       'footer.about': 'About',
+      'footer.visitor.count': '{count} managers have embarked on the Golden Road',
 
       // Misc
       'misc.rating': 'Rating',

@@ -1361,6 +1361,32 @@ button {
   color: var(--text-muted);
 }
 
+.visitor-counter {
+  margin-top: var(--space-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(4px);
+  transition: all var(--transition-normal);
+}
+.visitor-counter:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-gold);
+  color: var(--gold-mid);
+  box-shadow: 0 0 10px rgba(219, 183, 64, 0.1);
+}
+.visitor-icon {
+  color: var(--gold-mid);
+  filter: drop-shadow(0 0 2px var(--gold-glow));
+}
+
 /* ---------- Modal (How to Play / About) ---------- */
 .modal-overlay {
   position: fixed;

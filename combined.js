@@ -12,7 +12,7 @@
   <meta property="og:description" content="从英雄联盟电竞历史中组建梦幻阵容，挑战黄金之路。" />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260625-3" />
 </head>
 <body>
 
@@ -200,11 +200,11 @@
 
     <!-- ============ FREE DRAFT SCREEN ============ -->
     <div class="screen" id="screen-free-draft">
-      <div class="draft-container" style="max-width: 900px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px;">
+      <div class="draft-container free-draft-layout">
         
         <!-- Left: Roster slots -->
-        <div class="roster-panel" style="margin-top:0">
-          <div class="draft-header" style="justify-content: flex-start; margin-bottom: 20px;">
+        <div class="roster-panel free-draft-roster">
+          <div class="draft-header flex-start-mb20">
             <button class="back-btn" onclick="Game.backToStart()">
               ← <span data-i18n="mode.back">返回</span>
             </button>
@@ -221,14 +221,14 @@
         </div>
 
         <!-- Right: Player Pool -->
-        <div class="player-pool-panel" style="background: var(--surface-light); border-radius: var(--radius-lg); padding: var(--space-lg); display: flex; flex-direction: column; max-height: 85vh;">
-          <div class="selection-header" data-i18n="free.pool" style="margin-top:0; font-size:1.1rem">历史选手池</div>
+        <div class="player-pool-panel">
+          <div class="selection-header pool-header" data-i18n="free.pool">历史选手池</div>
           
           <!-- Filters -->
-          <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <input type="text" id="free-search" placeholder="搜索选手名..." style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); outline: none;" oninput="Game.filterFreePlayers()" />
+          <div class="search-container">
+            <input type="text" id="free-search" class="search-input" placeholder="搜索选手名..." oninput="Game.filterFreePlayers()" />
           </div>
-          <div class="role-assign" id="free-role-tabs" style="margin-bottom: 15px;">
+          <div class="role-assign free-role-tabs" id="free-role-tabs">
             <button class="role-btn active" onclick="Game.setFreeRoleFilter('all')">All</button>
             <button class="role-btn" onclick="Game.setFreeRoleFilter('top')">Top</button>
             <button class="role-btn" onclick="Game.setFreeRoleFilter('jungle')">Jungle</button>
@@ -238,7 +238,7 @@
           </div>
 
           <!-- List -->
-          <div id="free-player-list" style="overflow-y: auto; flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; padding-right: 5px; align-content: start;">
+          <div id="free-player-list" class="free-player-list">
             <!-- Rendered by JS -->
           </div>
         </div>
@@ -338,6 +338,10 @@
       <span class="footer-dot">·</span>
       <span class="footer-disc" style="display:inline;margin:0;" data-i18n="footer.disclaimer">非 Riot Games 官方产品</span>
     </div>
+    <div class="visitor-counter" id="visitor-counter" style="display: none;">
+      <span class="visitor-icon">👥</span>
+      <span id="visitor-text" data-i18n="footer.visitor.count" data-i18n-params='{"count":"..."}'>已有 ... 位经理踏上黄金之路</span>
+    </div>
   </footer>
 
   <!-- ============ MODALS ============ -->
@@ -407,6 +411,7 @@
   <script src="game.js"></script>
 </body>
 </html>
+
 /**
  * League of Legends Golden Road — Historical Data
  * ================================================
@@ -1476,6 +1481,7 @@ const ROSTERS = {
 // 4. MSI_YEARS
 // ---------------------------------------------------------------------------
 const MSI_YEARS = [2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025];
+
 /**
  * engine.js — 智能赛事模拟引擎 (Intelligent Simulation Engine)
  * Golden Road LoL 黄金之路
@@ -1802,6 +1808,7 @@ const Engine = (() => {
     simulateMSI,
   };
 })();
+
 /**
  * i18n.js — 中英双语国际化系统
  * Golden Road LoL 黄金之路
@@ -1936,6 +1943,7 @@ const I18N = (() => {
       'footer.disclaimer': '非 Riot Games 官方产品',
       'footer.howtoplay': '玩法说明',
       'footer.about': '关于',
+      'footer.visitor.count': '已有 {count} 位经理踏上黄金之路',
 
       // Misc
       'misc.rating': '评分',
@@ -2068,6 +2076,7 @@ const I18N = (() => {
       'footer.disclaimer': 'Not affiliated with Riot Games',
       'footer.howtoplay': 'How to Play',
       'footer.about': 'About',
+      'footer.visitor.count': '{count} managers have embarked on the Golden Road',
 
       // Misc
       'misc.rating': 'Rating',
@@ -2117,6 +2126,7 @@ const I18N = (() => {
 
   return { t, setLang, getLang, toggleLang, applyAll };
 })();
+
 /**
  * game.js — 游戏主逻辑
  * Golden Road LoL 黄金之路
@@ -2605,6 +2615,7 @@ const Game = (() => {
 
       if (player) {
         filledCount++;
+        slot.style.cursor = 'pointer';
         slot.innerHTML = `
           <div class="slot-role">${I18N.t('role.' + role)}</div>
           <div class="slot-player">${player.name}</div>
@@ -2613,10 +2624,12 @@ const Game = (() => {
         `;
         slot.onclick = () => removeFreePlayer(role);
       } else {
+        slot.style.cursor = 'pointer';
         slot.innerHTML = `
           <div class="slot-role">${I18N.t('role.' + role)}</div>
           <div class="slot-empty">${I18N.t('draft.empty')}</div>
         `;
+        slot.onclick = () => setFreeRoleFilter(role);
       }
       grid.appendChild(slot);
     });
@@ -2679,7 +2692,14 @@ const Game = (() => {
     if (state.roster[playerObj.role]) return; // slot full
     state.roster[playerObj.role] = playerObj;
     renderFreeRoster();
-    renderFreePlayerPool();
+    
+    // Auto-advance UX: automatically filter to the next unfilled role
+    const emptyRole = ROLES.find(r => !state.roster[r]);
+    if (emptyRole) {
+      setFreeRoleFilter(emptyRole);
+    } else {
+      setFreeRoleFilter('all');
+    }
   }
 
   function removeFreePlayer(role) {
@@ -3240,6 +3260,64 @@ const Game = (() => {
     }
   });
 
+  // ─── Visitor Counter ───────────────────────────────
+  async function initVisitorCounter() {
+    const counterEl = document.getElementById('visitor-text');
+    const containerEl = document.getElementById('visitor-counter');
+    if (!counterEl || !containerEl) return;
+
+    const storageKey = 'lol_golden_road_visited';
+    const cacheKey = 'lol_golden_road_visit_count';
+    const namespace = 'lol-golden-road';
+    const key = 'unique-visitors';
+
+    // Helper to update UI & cache
+    function updateUI(count) {
+      const num = parseInt(count, 10);
+      if (isNaN(num)) return;
+      localStorage.setItem(cacheKey, num.toString());
+      
+      // Update text parameters for i18n
+      counterEl.setAttribute('data-i18n-params', JSON.stringify({ count: num.toLocaleString() }));
+      
+      // Re-apply translations specifically
+      counterEl.textContent = I18N.t('footer.visitor.count', { count: num.toLocaleString() });
+      
+      // Show container
+      containerEl.style.display = 'inline-flex';
+    }
+
+    // Load from cache first for instant feedback
+    const cachedCount = localStorage.getItem(cacheKey);
+    if (cachedCount) {
+      updateUI(cachedCount);
+    }
+
+    const hasVisited = localStorage.getItem(storageKey);
+    const action = hasVisited ? 'unique-visitors' : 'unique-visitors/up';
+    const url = `https://api.counterapi.dev/v1/${namespace}/${action}`;
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000); // 4s timeout
+
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data && typeof data.count === 'number') {
+          updateUI(data.count);
+          if (!hasVisited) {
+            localStorage.setItem(storageKey, 'true');
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to fetch visitor count:', err);
+    }
+  }
+
   // ─── Init ──────────────────────────────────────────
   function init() {
     // Set initial language
@@ -3260,6 +3338,9 @@ const Game = (() => {
 
     // Apply initial translations
     I18N.applyAll();
+
+    // Start visitor counter
+    initVisitorCounter();
   }
 
   // Run init when DOM is ready

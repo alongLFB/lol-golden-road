@@ -1131,6 +1131,64 @@ const Game = (() => {
     }
   });
 
+  // ─── Visitor Counter ───────────────────────────────
+  async function initVisitorCounter() {
+    const counterEl = document.getElementById('visitor-text');
+    const containerEl = document.getElementById('visitor-counter');
+    if (!counterEl || !containerEl) return;
+
+    const storageKey = 'lol_golden_road_visited';
+    const cacheKey = 'lol_golden_road_visit_count';
+    const namespace = 'lol-golden-road';
+    const key = 'unique-visitors';
+
+    // Helper to update UI & cache
+    function updateUI(count) {
+      const num = parseInt(count, 10);
+      if (isNaN(num)) return;
+      localStorage.setItem(cacheKey, num.toString());
+      
+      // Update text parameters for i18n
+      counterEl.setAttribute('data-i18n-params', JSON.stringify({ count: num.toLocaleString() }));
+      
+      // Re-apply translations specifically
+      counterEl.textContent = I18N.t('footer.visitor.count', { count: num.toLocaleString() });
+      
+      // Show container
+      containerEl.style.display = 'inline-flex';
+    }
+
+    // Load from cache first for instant feedback
+    const cachedCount = localStorage.getItem(cacheKey);
+    if (cachedCount) {
+      updateUI(cachedCount);
+    }
+
+    const hasVisited = localStorage.getItem(storageKey);
+    const action = hasVisited ? 'unique-visitors' : 'unique-visitors/up';
+    const url = `https://api.counterapi.dev/v1/${namespace}/${action}`;
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000); // 4s timeout
+
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data && typeof data.count === 'number') {
+          updateUI(data.count);
+          if (!hasVisited) {
+            localStorage.setItem(storageKey, 'true');
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to fetch visitor count:', err);
+    }
+  }
+
   // ─── Init ──────────────────────────────────────────
   function init() {
     // Set initial language
@@ -1151,6 +1209,9 @@ const Game = (() => {
 
     // Apply initial translations
     I18N.applyAll();
+
+    // Start visitor counter
+    initVisitorCounter();
   }
 
   // Run init when DOM is ready
