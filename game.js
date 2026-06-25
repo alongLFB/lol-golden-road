@@ -470,8 +470,8 @@ const Game = (() => {
 
     // Run simulation
     state.simResults = state.mode === 'golden'
-      ? Engine.simulateGoldenRoad(teamRating)
-      : Engine.simulateMSI(teamRating);
+      ? Engine.simulateGoldenRoad(players)
+      : Engine.simulateMSI(players);
 
     state.simStageIndex = 0;
 
