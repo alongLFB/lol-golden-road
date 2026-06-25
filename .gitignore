@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Deployment scripts (contains sensitive API keys and server IPs)
+deploy.sh
+update_cert.sh
+
+# Logs
+*.log

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#060a14" />
+  <title>黄金之路 LoL — 英雄联盟电竞阵容挑战 | Golden Road LoL</title>
+  <meta name="description" content="转动赛区、战队和年份转盘，从英雄联盟电竞历史中选秀组建5人阵容，挑战完美赛季。Spin region, team and year to draft a League of Legends esports roster." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="/" />
+  <meta property="og:title" content="黄金之路 LoL — Golden Road LoL" />
+  <meta property="og:description" content="从英雄联盟电竞历史中组建梦幻阵容，挑战黄金之路。" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Background Effects -->
+  <div class="bg-effects" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- Language Toggle -->
+  <button class="lang-toggle" id="lang-toggle" onclick="Game.toggleLang()">
+    <span class="globe-icon">🌐</span>
+    <span id="lang-toggle-text" data-i18n="lang.switch">EN</span>
+  </button>
+
+  <!-- Confetti Container (for golden road win) -->
+  <div class="confetti-container" id="confetti-container" aria-hidden="true"></div>
+
+  <!-- Main Layout -->
+  <div class="layout">
+
+    <!-- ============ START SCREEN ============ -->
+    <div class="screen active" id="screen-start">
+      <div class="hero">
+        <div class="hero-kicker" data-i18n="app.tagline">英雄联盟电竞阵容挑战</div>
+        <h1 class="hero-title">
+          <span id="hero-title-main" data-i18n="app.title">黄金之路</span>
+          <span> LoL</span>
+        </h1>
+        <p class="hero-sub" data-i18n="app.description">
+          转动赛区、战队和年份转盘，从英雄联盟电竞历史中选秀组建5人阵容，挑战完美赛季：春季赛、季中冠军赛、夏季赛、全球总决赛。
+        </p>
+      </div>
+
+      <!-- Mode Selection -->
+      <div class="mode-select">
+        <div class="mode-card" id="mode-golden" onclick="Game.startMode('golden')">
+          <span class="mode-card-icon">🏆</span>
+          <div class="mode-card-title" data-i18n="mode.golden">黄金之路</div>
+          <div class="mode-card-desc" data-i18n="mode.golden.desc">完整赛季挑战 — 春季赛 → MSI → 夏季赛 → 全球总决赛</div>
+        </div>
+        <div class="mode-card" id="mode-msi" onclick="Game.startMode('msi')">
+          <span class="mode-card-icon">🌏</span>
+          <div class="mode-card-title" data-i18n="mode.msi">MSI 挑战</div>
+          <div class="mode-card-desc" data-i18n="mode.msi.desc">精简的季中冠军赛主题挑战</div>
+        </div>
+      </div>
+
+      <!-- Info Sections -->
+      <div class="info-sections">
+        <section class="info-section" id="section-about">
+          <h2 data-i18n="about.title">关于挑战</h2>
+          <p data-i18n="about.p1">黄金之路LoL是一款面向英雄联盟电竞粉丝的策略选秀游戏。每次挑战都需要平衡阵容知识、策略判断和运气：转盘决定候选池，但由你决定最终阵容。</p>
+          <p data-i18n="about.p2">黄金之路模式模拟完整赛季。你的阵容将参加春季赛、MSI、夏季赛和全球总决赛。完美通关意味着在每个赛事都夺冠——这对于顶级阵容也极为困难。</p>
+        </section>
+
+        <section class="info-section" id="section-strategy">
+          <h2 data-i18n="about.strategy">策略提示</h2>
+          <ul>
+            <li data-i18n="about.tip1">为弱阵容年份保留重骰机会。战队重骰可以拯救一个困难的赛区-年份组合。</li>
+            <li data-i18n="about.tip2">优先选择稀缺位置的选手。如果抽到的阵容有出色的辅助或打野，趁早锁定。</li>
+            <li data-i18n="about.tip3">选手评分与特定赛季绑定，巅峰赛季远比名气重要。</li>
+          </ul>
+        </section>
+
+        <section class="info-section" id="section-modes">
+          <h2 data-i18n="about.modes">游戏模式与评分</h2>
+          <p data-i18n="about.modes.p1">黄金之路模式使用 2013-2025 年的历史阵容。MSI 挑战模式使用精选的 MSI 年份阵容，运行更短的模拟。</p>
+          <p data-i18n="about.modes.p2">选完5人后，系统将隐藏的选手评分取均值作为阵容评分，然后模拟各阶段赛事。强阵容能提高胜率，但没有什么阵容能保证黄金之路。</p>
+        </section>
+      </div>
+    </div>
+
+    <!-- ============ DRAFT SCREEN ============ -->
+    <div class="screen" id="screen-draft">
+      <div class="draft-container">
+
+        <!-- Draft Header -->
+        <div class="draft-header">
+          <button class="back-btn" onclick="Game.backToStart()">
+            ← <span data-i18n="mode.back">返回</span>
+          </button>
+          <div class="round-badge" id="round-badge">
+            <span data-i18n="draft.round" data-i18n-params='{"n":"1"}'>第 1 轮</span>
+            <span data-i18n="draft.of">/ 5</span>
+          </div>
+          <div></div>
+        </div>
+
+        <!-- Reroll Bar -->
+        <div class="reroll-bar" id="reroll-bar">
+          <button class="reroll-item" id="reroll-region" onclick="Game.reroll('region')">
+            <span data-i18n="draft.region">赛区</span>
+            <span data-i18n="draft.reroll">重骰</span>
+            <span class="reroll-count" id="reroll-region-count">3</span>
+          </button>
+          <button class="reroll-item" id="reroll-team" onclick="Game.reroll('team')">
+            <span data-i18n="draft.team">战队</span>
+            <span data-i18n="draft.reroll">重骰</span>
+            <span class="reroll-count" id="reroll-team-count">3</span>
+          </button>
+          <button class="reroll-item" id="reroll-year" onclick="Game.reroll('year')">
+            <span data-i18n="draft.year">年份</span>
+            <span data-i18n="draft.reroll">重骰</span>
+            <span class="reroll-count" id="reroll-year-count">3</span>
+          </button>
+        </div>
+
+        <!-- Wheels -->
+        <div class="wheels-section">
+          <div class="wheel-wrapper">
+            <div class="wheel-label" data-i18n="draft.region">赛区</div>
+            <div class="wheel-box" id="wheel-region">
+              <div class="wheel-value placeholder">?</div>
+            </div>
+          </div>
+          <div class="wheel-wrapper">
+            <div class="wheel-label" data-i18n="draft.team">战队</div>
+            <div class="wheel-box" id="wheel-team">
+              <div class="wheel-value placeholder">?</div>
+            </div>
+          </div>
+          <div class="wheel-wrapper">
+            <div class="wheel-label" data-i18n="draft.year">年份</div>
+            <div class="wheel-box" id="wheel-year">
+              <div class="wheel-value placeholder">?</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spin Button -->
+        <button class="btn-spin" id="btn-spin" onclick="Game.spin()">
+          <span data-i18n="draft.spin">转 动</span>
+        </button>
+
+        <!-- Player Selection (hidden until spin) -->
+        <div class="player-selection hidden" id="player-selection">
+          <!-- Spin Result Banner -->
+          <div class="spin-result-banner" id="spin-result-banner">
+            <div class="spin-result-item">
+              <div class="spin-result-label" data-i18n="draft.region">赛区</div>
+              <div class="spin-result-value" id="result-region">—</div>
+            </div>
+            <div class="spin-result-divider"></div>
+            <div class="spin-result-item">
+              <div class="spin-result-label" data-i18n="draft.team">战队</div>
+              <div class="spin-result-value" id="result-team">—</div>
+            </div>
+            <div class="spin-result-divider"></div>
+            <div class="spin-result-item">
+              <div class="spin-result-label" data-i18n="draft.year">年份</div>
+              <div class="spin-result-value" id="result-year">—</div>
+            </div>
+          </div>
+
+          <!-- Selection Header -->
+          <div class="selection-header" data-i18n="draft.pick.player">选择一名选手加入阵容</div>
+
+          <!-- Player Cards Grid -->
+          <div class="player-grid" id="player-grid"></div>
+
+          <!-- Role Assignment -->
+          <div class="text-center">
+            <div class="selection-header" data-i18n="draft.pick.role" style="margin-top:0">分配到位置</div>
+            <div class="role-assign" id="role-assign"></div>
+            <button class="btn-confirm" id="btn-confirm" onclick="Game.confirmPick()" disabled>
+              <span data-i18n="draft.confirm">确认选择</span> ✓
+            </button>
+          </div>
+        </div>
+
+        <!-- Roster Panel -->
+        <div class="roster-panel">
+          <div class="roster-title" data-i18n="draft.roster">你的阵容</div>
+          <div class="roster-grid" id="roster-grid">
+            <!-- Filled by game.js -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============ SIMULATION SCREEN ============ -->
+    <div class="screen" id="screen-sim">
+      <div class="sim-container">
+
+        <!-- Final Roster Display -->
+        <div class="roster-panel" style="margin-top:0">
+          <div class="roster-title" data-i18n="draft.roster">你的阵容</div>
+          <div class="roster-grid" id="sim-roster-grid"></div>
+        </div>
+
+        <!-- Team Rating -->
+        <div class="team-rating-display">
+          <div class="team-rating-label" data-i18n="sim.team.rating">阵容评分</div>
+          <div class="team-rating-value" id="team-rating-value">0</div>
+          <div class="team-rating-bar">
+            <div class="team-rating-fill" id="team-rating-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Events Timeline -->
+        <div class="events-timeline" id="events-timeline"></div>
+
+        <!-- Sim Action Button -->
+        <button class="btn-sim-action" id="btn-sim-action" onclick="Game.simNext()">
+          <span data-i18n="sim.start">开始模拟</span>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- ============ RESULTS SCREEN ============ -->
+    <div class="screen" id="screen-results">
+      <div class="result-container">
+
+        <div class="result-banner" id="result-banner">
+          <div class="result-title" id="result-title">—</div>
+          <div class="result-desc" id="result-desc">—</div>
+        </div>
+
+        <div class="result-stats" id="result-stats"></div>
+
+        <!-- Season Summary (event results list) -->
+        <div class="events-timeline" id="result-events" style="width:100%;max-width:500px;"></div>
+
+        <!-- Share Card Preview -->
+        <div class="share-section">
+          <div class="share-card-frame" id="share-card-frame">
+            <canvas id="share-canvas" width="600" height="780"></canvas>
+          </div>
+
+          <!-- Share Buttons -->
+          <div class="share-buttons">
+            <button class="btn-share-action btn-share-copy" onclick="Game.copyShareText()">
+              <span data-i18n="share.copy">📋 复制</span>
+            </button>
+            <button class="btn-share-action btn-share-image" onclick="Game.downloadImage()">
+              <span data-i18n="share.image">⬇ 保存图片</span>
+            </button>
+            <button class="btn-share-action btn-share-post" onclick="Game.postToX()">
+              <span data-i18n="share.post">𝕏 发布</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Copied Toast -->
+        <div class="toast hidden" id="toast-copied">
+          <span data-i18n="share.copied">已复制到剪贴板！</span>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn-replay" onclick="Game.replay()">
+            <span data-i18n="result.play.again">再来一局</span>
+          </button>
+          <button class="btn-home" onclick="Game.backToStart()">
+            <span data-i18n="result.back.home">返回首页</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="site-footer">
+    <div class="footer-links">
+      <a href="#" onclick="Game.showModal('howto'); return false;" data-i18n="footer.howtoplay">玩法说明</a>
+      <span class="footer-dot">·</span>
+      <a href="#" onclick="Game.showModal('about'); return false;" data-i18n="footer.about">关于</a>
+      <span class="footer-dot">·</span>
+      <span class="footer-disc" style="display:inline;margin:0;" data-i18n="footer.disclaimer">非 Riot Games 官方产品</span>
+    </div>
+  </footer>
+
+  <!-- ============ MODALS ============ -->
+
+  <!-- How to Play Modal -->
+  <div class="modal-overlay" id="modal-howto">
+    <div class="modal-content">
+      <button class="modal-close" onclick="Game.closeModal('howto')">✕</button>
+      <h2 style="font-family:var(--font-display);font-size:1.2rem;color:var(--gold-mid);margin-bottom:var(--space-xl);" data-i18n="howto.title">玩法说明</h2>
+      <div class="howto-steps">
+        <div class="howto-step">
+          <div class="howto-number">1</div>
+          <div class="howto-text">
+            <h3 data-i18n="howto.step1.title">1. 选择模式</h3>
+            <p data-i18n="howto.step1.desc">选择黄金之路（完整赛季）或MSI挑战（精简版）</p>
+          </div>
+        </div>
+        <div class="howto-step">
+          <div class="howto-number">2</div>
+          <div class="howto-text">
+            <h3 data-i18n="howto.step2.title">2. 转动转盘</h3>
+            <p data-i18n="howto.step2.desc">系统随机生成赛区+战队+年份的组合</p>
+          </div>
+        </div>
+        <div class="howto-step">
+          <div class="howto-number">3</div>
+          <div class="howto-text">
+            <h3 data-i18n="howto.step3.title">3. 选择选手</h3>
+            <p data-i18n="howto.step3.desc">从该年阵容中选择一名选手，分配到空闲位置</p>
+          </div>
+        </div>
+        <div class="howto-step">
+          <div class="howto-number">4</div>
+          <div class="howto-text">
+            <h3 data-i18n="howto.step4.title">4. 组建阵容</h3>
+            <p data-i18n="howto.step4.desc">重复5轮，完成上单/打野/中单/ADC/辅助的完整阵容</p>
+          </div>
+        </div>
+        <div class="howto-step">
+          <div class="howto-number">5</div>
+          <div class="howto-text">
+            <h3 data-i18n="howto.step5.title">5. 模拟赛季</h3>
+            <p data-i18n="howto.step5.desc">观看你的阵容在各大赛事中的征战表现</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div class="modal-overlay" id="modal-about">
+    <div class="modal-content">
+      <button class="modal-close" onclick="Game.closeModal('about')">✕</button>
+      <h2 style="font-family:var(--font-display);font-size:1.2rem;color:var(--gold-mid);margin-bottom:var(--space-xl);" data-i18n="about.title">关于挑战</h2>
+      <p style="color:var(--text-secondary);line-height:1.7;margin-bottom:var(--space-md);" data-i18n="about.p1">黄金之路LoL是一款面向英雄联盟电竞粉丝的策略选秀游戏。</p>
+      <p style="color:var(--text-secondary);line-height:1.7;margin-bottom:var(--space-xl);" data-i18n="about.p2">黄金之路模式模拟完整赛季。</p>
+      <h3 style="font-size:1rem;color:var(--gold-mid);margin-bottom:var(--space-md);" data-i18n="about.modes">游戏模式与评分</h3>
+      <p style="color:var(--text-secondary);line-height:1.7;margin-bottom:var(--space-md);" data-i18n="about.modes.p1">黄金之路模式使用 2013-2025 年的历史阵容。</p>
+      <p style="color:var(--text-secondary);line-height:1.7;" data-i18n="about.modes.p2">选完5人后，系统将隐藏的选手评分取均值作为阵容评分。</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="i18n.js"></script>
+  <script src="data.js"></script>
+  <script src="engine.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
