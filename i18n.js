@@ -132,6 +132,11 @@ const I18N = (() => {
       'footer.disclaimer': '非 Riot Games 官方产品',
       'footer.howtoplay': '玩法说明',
       'footer.about': '关于',
+      'footer.glossary': '术语表',
+      'footer.contact': '联系我们',
+      'footer.privacy': '隐私政策',
+      'footer.terms': '使用条款',
+      'footer.friendlink': '友情链接：Golden Road LoL (原版)',
       'footer.visitor.count': '已有 {count} 位经理踏上黄金之路',
 
       // Misc
@@ -265,6 +270,11 @@ const I18N = (() => {
       'footer.disclaimer': 'Not affiliated with Riot Games',
       'footer.howtoplay': 'How to Play',
       'footer.about': 'About',
+      'footer.glossary': 'Glossary',
+      'footer.contact': 'Contact',
+      'footer.privacy': 'Privacy',
+      'footer.terms': 'Terms',
+      'footer.friendlink': 'Friend Link: Golden Road LoL (Original)',
       'footer.visitor.count': '{count} managers have embarked on the Golden Road',
 
       // Misc

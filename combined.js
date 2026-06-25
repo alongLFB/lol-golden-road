@@ -12,7 +12,7 @@
   <meta property="og:description" content="从英雄联盟电竞历史中组建梦幻阵容，挑战黄金之路。" />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
-  <link rel="stylesheet" href="styles.css?v=20260625-3" />
+  <link rel="stylesheet" href="styles.css?v=20260625_v3" />
 </head>
 <body>
 
@@ -332,9 +332,19 @@
   <!-- Footer -->
   <footer class="site-footer" id="site-footer">
     <div class="footer-links">
-      <a href="#" onclick="Game.showModal('howto'); return false;" data-i18n="footer.howtoplay">玩法说明</a>
+      <a href="how-to-play.html" data-i18n="footer.howtoplay">玩法说明</a>
       <span class="footer-dot">·</span>
-      <a href="#" onclick="Game.showModal('about'); return false;" data-i18n="footer.about">关于</a>
+      <a href="glossary.html" data-i18n="footer.glossary">术语表</a>
+      <span class="footer-dot">·</span>
+      <a href="about.html" data-i18n="footer.about">关于</a>
+      <span class="footer-dot">·</span>
+      <a href="contact.html" data-i18n="footer.contact">联系我们</a>
+      <span class="footer-dot">·</span>
+      <a href="privacy.html" data-i18n="footer.privacy">隐私政策</a>
+      <span class="footer-dot">·</span>
+      <a href="terms.html" data-i18n="footer.terms">使用条款</a>
+      <span class="footer-dot">·</span>
+      <a href="https://goldenroadlol.com/" target="_blank" rel="noopener" data-i18n="footer.friendlink">友情链接：Golden Road LoL (原版)</a>
       <span class="footer-dot">·</span>
       <span class="footer-disc" style="display:inline;margin:0;" data-i18n="footer.disclaimer">非 Riot Games 官方产品</span>
     </div>
@@ -344,65 +354,6 @@
     </div>
   </footer>
 
-  <!-- ============ MODALS ============ -->
-
-  <!-- How to Play Modal -->
-  <div class="modal-overlay" id="modal-howto">
-    <div class="modal-content">
-      <button class="modal-close" onclick="Game.closeModal('howto')">✕</button>
-      <h2 style="font-family:var(--font-display);font-size:1.2rem;color:var(--gold-mid);margin-bottom:var(--space-xl);" data-i18n="howto.title">玩法说明</h2>
-      <div class="howto-steps">
-        <div class="howto-step">
-          <div class="howto-number">1</div>
-          <div class="howto-text">
-            <h3 data-i18n="howto.step1.title">1. 选择模式</h3>
-            <p data-i18n="howto.step1.desc">选择黄金之路（完整赛季）或MSI挑战（精简版）</p>
-          </div>
-        </div>
-        <div class="howto-step">
-          <div class="howto-number">2</div>
-          <div class="howto-text">
-            <h3 data-i18n="howto.step2.title">2. 转动转盘</h3>
-            <p data-i18n="howto.step2.desc">系统随机生成赛区+战队+年份的组合</p>
-          </div>
-        </div>
-        <div class="howto-step">
-          <div class="howto-number">3</div>
-          <div class="howto-text">
-            <h3 data-i18n="howto.step3.title">3. 选择选手</h3>
-            <p data-i18n="howto.step3.desc">从该年阵容中选择一名选手，分配到空闲位置</p>
-          </div>
-        </div>
-        <div class="howto-step">
-          <div class="howto-number">4</div>
-          <div class="howto-text">
-            <h3 data-i18n="howto.step4.title">4. 组建阵容</h3>
-            <p data-i18n="howto.step4.desc">重复5轮，完成上单/打野/中单/ADC/辅助的完整阵容</p>
-          </div>
-        </div>
-        <div class="howto-step">
-          <div class="howto-number">5</div>
-          <div class="howto-text">
-            <h3 data-i18n="howto.step5.title">5. 模拟赛季</h3>
-            <p data-i18n="howto.step5.desc">观看你的阵容在各大赛事中的征战表现</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- About Modal -->
-  <div class="modal-overlay" id="modal-about">
-    <div class="modal-content">
-      <button class="modal-close" onclick="Game.closeModal('about')">✕</button>
-      <h2 style="font-family:var(--font-display);font-size:1.2rem;color:var(--gold-mid);margin-bottom:var(--space-xl);" data-i18n="about.title">关于挑战</h2>
-      <p style="color:var(--text-secondary);line-height:1.7;margin-bottom:var(--space-md);" data-i18n="about.p1">黄金之路LoL是一款面向英雄联盟电竞粉丝的策略选秀游戏。</p>
-      <p style="color:var(--text-secondary);line-height:1.7;margin-bottom:var(--space-xl);" data-i18n="about.p2">黄金之路模式模拟完整赛季。</p>
-      <h3 style="font-size:1rem;color:var(--gold-mid);margin-bottom:var(--space-md);" data-i18n="about.modes">游戏模式与评分</h3>
-      <p style="color:var(--text-secondary);line-height:1.7;margin-bottom:var(--space-md);" data-i18n="about.modes.p1">黄金之路模式使用 2013-2025 年的历史阵容。</p>
-      <p style="color:var(--text-secondary);line-height:1.7;" data-i18n="about.modes.p2">选完5人后，系统将隐藏的选手评分取均值作为阵容评分。</p>
-    </div>
-  </div>
 
   <!-- Scripts -->
   <script src="i18n.js"></script>
@@ -1943,6 +1894,11 @@ const I18N = (() => {
       'footer.disclaimer': '非 Riot Games 官方产品',
       'footer.howtoplay': '玩法说明',
       'footer.about': '关于',
+      'footer.glossary': '术语表',
+      'footer.contact': '联系我们',
+      'footer.privacy': '隐私政策',
+      'footer.terms': '使用条款',
+      'footer.friendlink': '友情链接：Golden Road LoL (原版)',
       'footer.visitor.count': '已有 {count} 位经理踏上黄金之路',
 
       // Misc
@@ -2076,6 +2032,11 @@ const I18N = (() => {
       'footer.disclaimer': 'Not affiliated with Riot Games',
       'footer.howtoplay': 'How to Play',
       'footer.about': 'About',
+      'footer.glossary': 'Glossary',
+      'footer.contact': 'Contact',
+      'footer.privacy': 'Privacy',
+      'footer.terms': 'Terms',
+      'footer.friendlink': 'Friend Link: Golden Road LoL (Original)',
       'footer.visitor.count': '{count} managers have embarked on the Golden Road',
 
       // Misc
