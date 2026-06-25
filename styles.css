@@ -1869,23 +1869,32 @@ body.lang-en [lang="zh"] { display: none !important; }
   }
 
   .roster-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: var(--space-sm);
-    gap: var(--space-sm);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    padding-bottom: 0;
   }
 
   .roster-slot {
-    flex: 0 0 110px;
-    scroll-snap-align: start;
-    padding: var(--space-sm) var(--space-xs);
-    min-height: 80px;
+    flex: none;
+    width: auto;
+    scroll-snap-align: none;
+    padding: 8px 2px;
+    min-height: 70px;
+    gap: 2px;
   }
   .slot-player {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
   }
   .slot-role {
+    font-size: 0.6rem;
+  }
+  .slot-empty {
     font-size: 0.65rem;
   }
 

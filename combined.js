@@ -12,7 +12,7 @@
   <meta property="og:description" content="从英雄联盟电竞历史中组建梦幻阵容，挑战黄金之路。" />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
-  <link rel="stylesheet" href="styles.css?v=20260625_v4" />
+  <link rel="stylesheet" href="styles.css?v=20260625_v5" />
 </head>
 <body>
 
